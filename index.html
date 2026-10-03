@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agatha Beauty | Catálogo digital de productos</title>
+  <meta name="description" content="Catálogo digital interactivo de Agatha Beauty: busca, filtra y consulta todos los productos en un solo lugar.">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Agatha Beauty">
+  <meta property="og:title" content="Agatha Beauty | Catálogo digital de productos">
+  <meta property="og:description" content="Busca, filtra y consulta los productos de Agatha Beauty.">
+  <meta property="og:locale" content="es_CO">
+  <!-- [INFORMACIÓN PENDIENTE] og:image y og:url cuando existan portada exportada y dominio -->
+
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#catalogo">Saltar al catálogo</a>
+
+  <header class="site-header" id="inicio-header">
+    <div class="container header-inner">
+      <a class="brand" href="#inicio" aria-label="Agatha Beauty, inicio">
+        <img class="brand-logo" data-brand-logo hidden alt="Agatha Beauty" width="160" height="48">
+        <span class="brand-text" data-brand-name>Agatha Beauty</span>
+      </a>
+
+      <button class="icon-btn menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menú">
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="24" height="24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+
+      <nav class="main-nav" id="main-nav" aria-label="Principal">
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#categorias">Categorías</a></li>
+          <li data-nav-offers hidden><a href="#catalogo" data-offers-link>Ofertas</a></li>
+          <li data-nav-contact hidden><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+
+      <button class="icon-btn search-jump" type="button" aria-label="Buscar productos" data-focus-search>
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO: se reemplazará por la composición de la portada original del catálogo -->
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="container hero-inner">
+        <h1 id="hero-title" data-brand-name>Agatha Beauty</h1>
+        <p class="hero-tagline" data-brand-tagline hidden></p>
+        <a class="btn btn-primary" href="#catalogo">Explorar catálogo</a>
+      </div>
+    </section>
+
+    <section class="catalog" id="catalogo" aria-labelledby="catalog-title">
+      <div class="container">
+        <div class="catalog-head">
+          <h2 id="catalog-title">Catálogo</h2>
+
+          <div class="view-switch" role="group" aria-label="Modo de visualización">
+            <button type="button" class="chip" data-view="productos" aria-pressed="true">Vista productos</button>
+            <button type="button" class="chip" data-view="catalogo" aria-pressed="false">Vista catálogo</button>
+          </div>
+        </div>
+
+        <!-- Vista productos (búsqueda) -->
+        <div data-panel="productos">
+          <form class="toolbar" role="search" data-search-form>
+            <label class="search-field">
+              <span class="visually-hidden">Buscar productos</span>
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <input type="search" name="q" placeholder="Buscar productos…" autocomplete="off" data-search-input>
+            </label>
+
+            <label class="sort-field" data-sort-wrap>
+              <span class="visually-hidden">Ordenar por</span>
+              <select name="sort" data-sort-select>
+                <option value="">Orden del catálogo</option>
+                <option value="name-asc">Nombre A-Z</option>
+                <option value="name-desc">Nombre Z-A</option>
+                <option value="price-asc" data-needs-price>Precio: menor a mayor</option>
+                <option value="price-desc" data-needs-price>Precio: mayor a menor</option>
+              </select>
+            </label>
+          </form>
+
+          <nav class="categories" id="categorias" aria-label="Categorías">
+            <h3 class="visually-hidden">Categorías</h3>
+            <div class="chip-row" data-categories></div>
+          </nav>
+
+          <p class="result-count" aria-live="polite" data-result-count></p>
+
+          <ul class="product-grid" data-product-grid></ul>
+
+          <div class="empty-state" data-empty hidden>
+            <p data-empty-message>No encontramos productos que coincidan con tu búsqueda.</p>
+            <button type="button" class="btn btn-secondary" data-clear>Limpiar búsqueda</button>
+          </div>
+
+          <div class="empty-state" data-pending hidden>
+            <p><strong>Catálogo en preparación.</strong></p>
+            <p>Los productos se cargarán desde <code>data/products.json</code> cuando se complete la auditoría del catálogo original. <span class="pending-tag">[INFORMACIÓN PENDIENTE]</span></p>
+          </div>
+        </div>
+
+        <!-- Vista catálogo (páginas originales) -->
+        <div data-panel="catalogo" hidden>
+          <ol class="catalog-pages" data-catalog-pages></ol>
+          <div class="empty-state" data-pages-pending hidden>
+            <p>Las páginas del catálogo original aún no se han exportado. <span class="pending-tag">[INFORMACIÓN PENDIENTE]</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contacto" aria-labelledby="contact-title" hidden>
+      <div class="container">
+        <h2 id="contact-title">Contacto</h2>
+        <ul class="contact-list" data-contact-list></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span data-year></span> <span data-brand-name>Agatha Beauty</span></p>
+    </div>
+  </footer>
+
+  <!-- Detalle de producto -->
+  <dialog class="product-dialog" aria-labelledby="detail-name" data-dialog>
+    <div class="dialog-inner">
+      <button type="button" class="btn btn-link back-btn" data-close>← Volver al catálogo</button>
+      <article class="detail" data-detail></article>
+    </div>
+  </dialog>
+
+  <noscript>
+    <p class="container">Este catálogo necesita JavaScript para buscar y filtrar productos.</p>
+  </noscript>
+</body>
+</html>

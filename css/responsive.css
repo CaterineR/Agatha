@@ -1,0 +1,38 @@
+/* Puntos de quiebre (mobile first: los estilos base están pensados para celular). */
+
+/* Tablet */
+@media (min-width: 640px) {
+  .container { padding-inline: var(--space-6); }
+  .toolbar { grid-template-columns: 1fr auto; }
+  .sort-field select { width: auto; min-width: 14rem; }
+  .categories .chip-row { flex-wrap: wrap; overflow: visible; }
+  .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+  .card-body { padding: var(--space-4); }
+
+  .product-dialog {
+    width: min(960px, calc(100% - 2 * var(--space-6)));
+    height: fit-content; max-height: calc(100% - 2 * var(--space-6));
+    margin: auto; border-radius: var(--radius-card);
+  }
+  .dialog-inner { padding: var(--space-6); }
+}
+
+/* Escritorio */
+@media (min-width: 900px) {
+  .menu-toggle { display: none; }
+  .main-nav { position: static; display: block; background: none; border: 0; }
+  .main-nav ul { flex-direction: row; gap: var(--space-2); padding: 0; }
+  .main-nav a { padding: var(--space-2) var(--space-3); }
+
+  .hero { padding-block: calc(var(--space-12) * 2); }
+
+  .detail { grid-template-columns: 1fr 1fr; align-items: start; }
+}
+
+@media (min-width: 1100px) {
+  .product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .product-card:hover { transform: translateY(-2px); }
+}

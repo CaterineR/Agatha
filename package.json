@@ -1,0 +1,15 @@
+{
+  "name": "agatha-beauty-catalogo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Catálogo digital interactivo de Agatha Beauty",
+  "type": "module",
+  "scripts": {
+    "start": "serve . -l 8080",
+    "images": "node scripts/optimize-images.mjs"
+  },
+  "devDependencies": {
+    "serve": "^14.2.4",
+    "sharp": "^0.33.5"
+  }
+}
