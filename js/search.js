@@ -8,13 +8,14 @@ export function normalizeText(text) {
     .toLowerCase();
 }
 
-const SEARCH_FIELDS = ['name', 'category', 'type', 'reference', 'presentation', 'description', 'shortDescription'];
+const SEARCH_FIELDS = ['name', 'brand', 'category', 'type', 'reference', 'presentation', 'description', 'shortDescription'];
 
 /** Precalcula el texto buscable de cada producto (una sola vez al cargar). */
 export function buildIndex(products) {
   const index = new Map();
   for (const product of products) {
-    const parts = SEARCH_FIELDS.map((field) => product[field]).concat(product.tags);
+    const parts = SEARCH_FIELDS.map((field) => product[field])
+      .concat(product.tags, product.variants.map((v) => v.label), Object.values(product.details ?? {}));
     index.set(product.id, normalizeText(parts.filter(Boolean).join(' ')));
   }
   return index;

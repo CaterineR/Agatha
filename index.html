@@ -3,19 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Agatha Beauty | Catálogo digital de productos</title>
-  <meta name="description" content="Catálogo digital interactivo de Agatha Beauty: busca, filtra y consulta todos los productos en un solo lugar.">
-  <meta name="theme-color" content="#ffffff">
+  <title>Ágata Beauty | Catálogo 2026 de maquillaje, skincare y selfcare</title>
+  <meta name="description" content="Catálogo digital de Ágata Beauty: busca y filtra productos de maquillaje, cuidado facial, cuidado capilar y corporal por marca y categoría. Belleza que nace del amor.">
+  <meta name="theme-color" content="#fcf3ec">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Agatha Beauty">
-  <meta property="og:title" content="Agatha Beauty | Catálogo digital de productos">
-  <meta property="og:description" content="Busca, filtra y consulta los productos de Agatha Beauty.">
+  <meta property="og:site_name" content="Ágata Beauty">
+  <meta property="og:title" content="Ágata Beauty | Catálogo 2026">
+  <meta property="og:description" content="Makeup • Skincare • Selfcare. Busca, filtra y consulta todos los productos del catálogo.">
   <meta property="og:locale" content="es_CO">
-  <!-- [INFORMACIÓN PENDIENTE] og:image y og:url cuando existan portada exportada y dominio -->
+  <meta property="og:image" content="assets/catalog/pagina-001.webp">
+  <!-- [INFORMACIÓN PENDIENTE] og:url cuando exista el dominio definitivo -->
 
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Cormorant Garamond y Dancing Script son las fuentes del logo original. Poppins aparece en el
+       catálogo y reemplaza a Garet / Mont / Codec Pro (licencias comerciales de Canva). -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Dancing+Script:wght@700&family=Poppins:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/responsive.css">
   <script type="module" src="js/app.js"></script>
@@ -23,11 +29,10 @@
 <body>
   <a class="skip-link" href="#catalogo">Saltar al catálogo</a>
 
-  <header class="site-header" id="inicio-header">
+  <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="#inicio" aria-label="Agatha Beauty, inicio">
-        <img class="brand-logo" data-brand-logo hidden alt="Agatha Beauty" width="160" height="48">
-        <span class="brand-text" data-brand-name>Agatha Beauty</span>
+      <a class="brand" href="#inicio" aria-label="Ágata Beauty, inicio">
+        <span class="wordmark wordmark-sm" aria-hidden="true"><span class="wm-main">ÁGATA</span><span class="wm-script">beauty</span></span>
       </a>
 
       <button class="icon-btn menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Abrir menú">
@@ -40,6 +45,7 @@
           <li><a href="#catalogo">Catálogo</a></li>
           <li><a href="#categorias">Categorías</a></li>
           <li data-nav-offers hidden><a href="#catalogo" data-offers-link>Ofertas</a></li>
+          <li><a href="#como-comprar">Cómo comprar</a></li>
           <li data-nav-contact hidden><a href="#contacto">Contacto</a></li>
         </ul>
       </nav>
@@ -51,24 +57,38 @@
   </header>
 
   <main>
-    <!-- HERO: se reemplazará por la composición de la portada original del catálogo -->
+    <!-- Portada: réplica de la página 1 del catálogo -->
     <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <img class="hero-deco hero-deco-strokes" src="assets/images/decor/trazos-sup-izq.webp" alt="" width="372" height="407">
+      <img class="hero-deco hero-deco-lipstick" src="assets/images/decor/labial.webp" alt="" width="186" height="322">
+      <img class="hero-deco hero-deco-brush" src="assets/images/decor/brocha.webp" alt="" width="233" height="407">
+      <img class="hero-deco hero-deco-strokes-br" src="assets/images/decor/trazos-inf-der.webp" alt="" width="256" height="193">
+      <img class="hero-deco hero-deco-star s1" src="assets/images/decor/estrella.webp" alt="" width="71" height="65">
+      <img class="hero-deco hero-deco-star s2" src="assets/images/decor/estrella.webp" alt="" width="71" height="65">
+
       <div class="container hero-inner">
-        <h1 id="hero-title" data-brand-name>Agatha Beauty</h1>
-        <p class="hero-tagline" data-brand-tagline hidden></p>
+        <h1 id="hero-title" class="wordmark wordmark-lg">
+          <span class="wm-main">ÁGATA</span><span class="wm-script">beauty</span>
+          <span class="visually-hidden"> — Catálogo digital</span>
+        </h1>
+        <p class="hero-claim" data-brand-claim>Makeup • Skincare • Selfcare</p>
+        <p class="hero-edition" data-brand-edition>Catálogo 2026</p>
         <a class="btn btn-primary" href="#catalogo">Explorar catálogo</a>
+        <ul class="hero-contact" data-hero-contact></ul>
+        <p class="hero-tagline" data-brand-tagline>Belleza que nace del amor</p>
       </div>
     </section>
 
     <section class="catalog" id="catalogo" aria-labelledby="catalog-title">
       <div class="container">
-        <div class="catalog-head">
-          <h2 id="catalog-title">Catálogo</h2>
+        <div class="section-head">
+          <h2 id="catalog-title" class="brand-title">Catálogo</h2>
+          <span class="divider" aria-hidden="true"></span>
+        </div>
 
-          <div class="view-switch" role="group" aria-label="Modo de visualización">
-            <button type="button" class="chip" data-view="productos" aria-pressed="true">Vista productos</button>
-            <button type="button" class="chip" data-view="catalogo" aria-pressed="false">Vista catálogo</button>
-          </div>
+        <div class="view-switch" role="group" aria-label="Modo de visualización">
+          <button type="button" class="chip" data-view="productos" aria-pressed="true">Vista productos</button>
+          <button type="button" class="chip" data-view="catalogo" aria-pressed="false">Vista catálogo</button>
         </div>
 
         <!-- Vista productos (búsqueda) -->
@@ -77,12 +97,19 @@
             <label class="search-field">
               <span class="visually-hidden">Buscar productos</span>
               <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-              <input type="search" name="q" placeholder="Buscar productos…" autocomplete="off" data-search-input>
+              <input type="search" name="q" placeholder="Buscar productos, marcas…" autocomplete="off" data-search-input>
             </label>
 
-            <label class="sort-field" data-sort-wrap>
+            <label class="select-field">
+              <span class="visually-hidden">Filtrar por marca</span>
+              <select name="marca" data-brand-select>
+                <option value="">Todas las marcas</option>
+              </select>
+            </label>
+
+            <label class="select-field">
               <span class="visually-hidden">Ordenar por</span>
-              <select name="sort" data-sort-select>
+              <select name="orden" data-sort-select>
                 <option value="">Orden del catálogo</option>
                 <option value="name-asc">Nombre A-Z</option>
                 <option value="name-desc">Nombre Z-A</option>
@@ -102,18 +129,23 @@
           <ul class="product-grid" data-product-grid></ul>
 
           <div class="empty-state" data-empty hidden>
-            <p data-empty-message>No encontramos productos que coincidan con tu búsqueda.</p>
+            <p>No encontramos productos que coincidan con tu búsqueda.</p>
+            <p class="empty-hint">¿No encuentras lo que buscas? ¡Pregúntanos! Podemos cotizarlo especialmente para ti, sujeto a disponibilidad.</p>
             <button type="button" class="btn btn-secondary" data-clear>Limpiar búsqueda</button>
           </div>
 
           <div class="empty-state" data-pending hidden>
             <p><strong>Catálogo en preparación.</strong></p>
-            <p>Los productos se cargarán desde <code>data/products.json</code> cuando se complete la auditoría del catálogo original. <span class="pending-tag">[INFORMACIÓN PENDIENTE]</span></p>
+            <p>Los productos se cargan desde <code>data/products.json</code>. <span class="pending-tag">[INFORMACIÓN PENDIENTE]</span></p>
           </div>
         </div>
 
         <!-- Vista catálogo (páginas originales) -->
         <div data-panel="catalogo" hidden>
+          <nav class="page-index" aria-label="Ir a una marca del catálogo">
+            <p class="page-index-label">Ir a:</p>
+            <div class="chip-row" data-page-index></div>
+          </nav>
           <ol class="catalog-pages" data-catalog-pages></ol>
           <div class="empty-state" data-pages-pending hidden>
             <p>Las páginas del catálogo original aún no se han exportado. <span class="pending-tag">[INFORMACIÓN PENDIENTE]</span></p>
@@ -122,9 +154,23 @@
       </div>
     </section>
 
+    <section class="how-to" id="como-comprar" aria-labelledby="how-title" hidden>
+      <div class="container">
+        <div class="section-head">
+          <h2 id="how-title" class="brand-title" data-process-title>Proceso de compra</h2>
+          <span class="divider" aria-hidden="true"></span>
+        </div>
+        <ol class="steps" data-process-steps></ol>
+        <p class="notice" data-process-notice></p>
+      </div>
+    </section>
+
     <section class="contact" id="contacto" aria-labelledby="contact-title" hidden>
       <div class="container">
-        <h2 id="contact-title">Contacto</h2>
+        <div class="section-head">
+          <h2 id="contact-title" class="brand-title">Contacto</h2>
+          <span class="divider" aria-hidden="true"></span>
+        </div>
         <ul class="contact-list" data-contact-list></ul>
       </div>
     </section>
@@ -132,7 +178,9 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p>&copy; <span data-year></span> <span data-brand-name>Agatha Beauty</span></p>
+      <p class="wordmark wordmark-sm" aria-hidden="true"><span class="wm-main">ÁGATA</span><span class="wm-script">beauty</span></p>
+      <p data-footer-tagline>Belleza que nace del amor</p>
+      <p>&copy; <span data-year></span> <span data-brand-name>Ágata Beauty</span></p>
     </div>
   </footer>
 

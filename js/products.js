@@ -17,11 +17,14 @@ const isPresent = (value) => value !== undefined && value !== null && value !== 
 
 function normalizeProduct(raw, index) {
   if (!isPresent(raw.id) || !isPresent(raw.name)) {
-    console.warn('[Agatha] Producto ignorado: falta "id" o "name".', raw);
+    console.warn('[Ágata] Producto ignorado: falta "id" o "name".', raw);
     return null;
   }
   const product = { ...raw, order: index };
   if (isPresent(raw.category)) product.categorySlug = slugify(raw.category);
+  if (isPresent(raw.brand)) product.brandSlug = slugify(raw.brand);
+  product.variants = Array.isArray(raw.variants) ? raw.variants : [];
+  product.gallery = Array.isArray(raw.gallery) ? raw.gallery : [];
   if (isPresent(raw.price)) {
     const price = Number(raw.price);
     if (Number.isFinite(price)) product.price = price;
@@ -42,7 +45,7 @@ export async function loadCatalog(url = DATA_URL) {
     .filter((p) => {
       if (!p) return false;
       if (seen.has(p.id)) {
-        console.warn(`[Agatha] ID duplicado ignorado: ${p.id}`);
+        console.warn(`[Ágata] ID duplicado ignorado: ${p.id}`);
         return false;
       }
       seen.add(p.id);

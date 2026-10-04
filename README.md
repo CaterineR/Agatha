@@ -1,8 +1,12 @@
-# Agatha Beauty — Catálogo digital interactivo
+# Ágata Beauty — Catálogo digital interactivo
 
-Versión web del catálogo de Agatha Beauty (diseñado originalmente en Canva). Conserva la identidad visual del catálogo y permite **buscar, filtrar y consultar productos sin pasar página por página**.
+Versión web del **Catálogo 2026 de Ágata Beauty** (*Makeup • Skincare • Selfcare*), diseñado originalmente en Canva. Conserva la identidad del catálogo (fotografías, textos, precios, colores, tipografías del logo, el círculo con anillo cobrizo y los adornos de línea) y permite **buscar, filtrar por marca y categoría y consultar cada producto sin pasar página por página**.
 
-> **Estado actual (v0.1):** el motor del catálogo está construido y probado, pero **aún no contiene productos**. Falta la auditoría del catálogo original (ver [`docs/AUDITORIA.md`](docs/AUDITORIA.md)). La paleta y las tipografías son provisionales. `[INFORMACIÓN PENDIENTE]`
+- **225 productos** de **25 marcas**, extraídos del PDF original de 121 páginas.
+- Vista productos (búsqueda) y **vista catálogo** (las páginas originales, con índice por marca).
+- Botón **"Comprar / Solicitar producto"** que abre WhatsApp (3135496268) con el nombre del producto, siguiendo el proceso de compra del catálogo.
+
+El diagnóstico completo y los datos pendientes están en [`docs/AUDITORIA.md`](docs/AUDITORIA.md). La lista de productos está en [`docs/PRODUCTOS.md`](docs/PRODUCTOS.md).
 
 ## Ejecutar en local
 
@@ -22,114 +26,109 @@ Abrir <http://localhost:8080>.
 ## Estructura
 
 ```
-index.html              Página única (header, portada, catálogo, contacto, detalle)
-css/styles.css          Estilos base mobile first + variables de identidad visual
-css/responsive.css      Puntos de quiebre (tablet 640px, escritorio 900px / 1100px)
-js/app.js               Punto de entrada: carga datos, eventos, sincronización
-js/products.js          Carga y validación de data/products.json
-js/search.js            Búsqueda instantánea (sin tildes ni mayúsculas, varias palabras)
-js/filters.js           Categorías (derivadas de los datos), ofertas y ordenamiento
-js/state.js             Estado en la URL (atrás del navegador y enlaces compartibles)
-js/ui.js                Renderizado de tarjetas, detalle, vista catálogo y contacto
-data/products.json      ÚNICA fuente de datos: marca, contacto, páginas y productos
-assets/images/          Fotos de producto optimizadas (WebP) + placeholder.svg
-assets/catalog/         Páginas del catálogo original exportadas (vista catálogo)
-assets/logo/            Logotipo
-assets/icons/           Favicon (provisional)
-assets/fonts/           Tipografías del catálogo, si se pueden usar en web
-catalogo-original/      Exportaciones originales de Canva — NO modificar
-scripts/optimize-images.mjs  Conversión de fotos a WebP (sin alterar el producto)
-docs/AUDITORIA.md       Diagnóstico del catálogo original y datos pendientes
+index.html                  Página única: portada, catálogo, cómo comprar, contacto, detalle
+css/styles.css              Estilos base mobile first + variables de identidad visual
+css/responsive.css          Puntos de quiebre (640px, 900px, 1100px)
+js/app.js                   Punto de entrada: carga datos, eventos, sincronización con la URL
+js/products.js              Carga y validación de data/products.json
+js/search.js                Búsqueda instantánea (sin tildes ni mayúsculas, varias palabras)
+js/filters.js               Marcas y categorías (derivadas de los datos), ofertas y orden
+js/state.js                 Estado en la URL (atrás del navegador y enlaces compartibles)
+js/ui.js                    Tarjetas, detalle, vista catálogo, proceso de compra, contacto
+data/products.json          ÚNICA fuente de datos: marca, contacto, proceso de compra, páginas y productos
+assets/images/productos/    Foto de cada producto (círculo del catálogo) + fotos de tonos/variantes
+assets/catalog/             Páginas originales del catálogo (vista catálogo)
+assets/images/decor/        Fondo y adornos de línea extraídos del catálogo
+assets/icons/               Favicon e íconos de Instagram / WhatsApp del catálogo
+catalogo-original/          Lugar del PDF de Canva (no se sube: pesa ~160 MB)
+scripts/extract-catalog.py  Genera productos, fotos y páginas a partir del PDF
+scripts/optimize-images.mjs Convierte fotos sueltas a WebP (para productos agregados a mano)
+docs/                       Auditoría del catálogo y tabla de productos
 ```
 
-## Cómo agregar o modificar productos
+## Actualizar el catálogo cuando cambie el PDF
 
-Todo se edita en `data/products.json`; no hace falta tocar HTML ni JavaScript.
+Si el catálogo se sigue editando en Canva, lo más fácil es regenerarlo todo:
+
+1. Exportar desde Canva: **Compartir → Descargar → PDF estándar**.
+2. Guardarlo como `catalogo-original/catalogo.pdf`.
+3. Ejecutar:
+
+   ```bash
+   pip install pymupdf pillow
+   npm run catalog
+   ```
+
+El script lee cada página (marca, sección, nombre, precios y descripciones según la tipografía del catálogo), recorta la foto de cada producto tal como aparece en el círculo y exporta las páginas. Conserva el bloque `brand` de `products.json` y reemplaza `pages` y `products`. Revisa el resumen que imprime y la página en el navegador antes de publicar.
+
+> El script depende del diseño actual (marco de tarjeta, círculo, tipografías). Si cambia la plantilla de Canva, puede necesitar ajustes.
+
+## Agregar o modificar productos a mano
+
+También se puede editar `data/products.json` directamente, sin tocar HTML ni JavaScript (los cambios manuales se pierden si después se regenera desde el PDF):
 
 ```json
 {
-  "id": "producto-001",
-  "name": "Nombre exacto del catálogo",
-  "category": "Categoría exacta del catálogo",
-  "type": "Tipo de producto",
+  "id": "montoc-003-2",
+  "name": "Polvos Translúcidos",
+  "brand": "Montoc",
+  "category": "Rostro",
+  "price": 27000,
+  "variants": [
+    { "label": "5gr", "price": 27000 },
+    { "label": "10gr", "price": 33000 },
+    { "label": "30gr", "price": 62000 }
+  ],
+  "presentation": "Contenido, si aparece en el catálogo (p. ej. 450 ml)",
+  "description": "Texto tal como aparece en el catálogo",
+  "details": { "Aromas": "Irresistible, Majestuosa" },
   "reference": "Referencia",
-  "price": 25000,
-  "priceText": "$25.000",
-  "presentation": "Presentación",
-  "shortDescription": "Texto breve para la tarjeta",
-  "description": "Descripción completa del catálogo",
   "offer": "Texto de la oferta, o true",
-  "details": { "Tono": "…", "Contenido": "…" },
   "tags": ["palabras", "extra", "para", "buscar"],
-  "image": "assets/images/producto-001-800.webp",
-  "imageSmall": "assets/images/producto-001-400.webp",
-  "imageWidth": 800,
-  "imageHeight": 800,
+  "image": "assets/images/productos/montoc-003-2-640.webp",
+  "imageSmall": "assets/images/productos/montoc-003-2-320.webp",
+  "imageWidth": 640,
+  "imageHeight": 640,
   "imageAlt": "Descripción de la foto",
+  "gallery": [{ "src": "assets/images/productos/montoc-003-2-variantes.webp", "width": 720, "height": 400, "alt": "…" }],
   "page": 3
 }
 ```
 
 Reglas:
 
-- **Solo `id` y `name` son obligatorios.** Los demás campos se escriben únicamente si el dato existe en el catálogo original. Un campo ausente simplemente no se muestra; **no inventes datos**.
-- `id` debe ser único y no cambiar (se usa en los enlaces: `?producto=producto-001`).
-- `price` es un número (sin puntos ni símbolo) y sirve para ordenar. `priceText` es opcional: si existe, se muestra tal cual aparece en el catálogo. El orden por precio solo aparece si algún producto tiene `price`.
-- Las **categorías se generan automáticamente** a partir de `category`, en el orden en que aparecen. Para crear una categoría basta con usarla en un producto.
-- `offer` marca el producto como oferta. El menú "Ofertas" solo aparece si existe al menos uno.
-- `page` enlaza el producto con su página en la vista catálogo.
+- **Solo `id` y `name` son obligatorios.** Los demás campos se escriben únicamente si el dato existe en el catálogo. Un campo ausente no se muestra; **no inventes datos**.
+- `id` debe ser único y no cambiar (se usa en los enlaces: `?producto=montoc-003-2`).
+- `price` es un número sin puntos ni símbolo y sirve para ordenar. Si hay `variants` (tamaños, tonos…), `price` es el menor y la tarjeta muestra la lista completa.
+- **Marcas y categorías se generan automáticamente** a partir de `brand` y `category`, en el orden en que aparecen en el catálogo.
+- `offer` marca el producto como oferta. El menú "Ofertas" solo aparece si existe al menos uno (el catálogo 2026 no tiene ofertas).
+- `page` enlaza el producto con su página en la vista catálogo (botón "Ver en el catálogo original").
+- Para fotos nuevas: `npm run images -- carpeta-con-fotos assets/images/productos` (solo redimensiona y comprime; no altera el producto).
 
-### Marca, contacto y páginas del catálogo
+### Marca, contacto y proceso de compra
 
-```json
-"brand": {
-  "name": "Agatha Beauty",
-  "tagline": "Frase de la portada, si existe",
-  "logo": "assets/logo/agatha-beauty.svg",
-  "currencySymbol": "$",
-  "contact": {
-    "whatsapp": "+57 …",
-    "instagram": "@usuario",
-    "phone": "…",
-    "email": "…",
-    "website": "https://…"
-  }
-},
-"pages": [
-  { "number": 1, "image": "assets/catalog/pagina-01.webp", "width": 1080, "height": 1350, "products": ["producto-001", "producto-002"] }
-]
-```
-
-- La sección Contacto y el botón **"Comprar / Solicitar producto"** solo aparecen si hay canales reales en `contact`. Prioridad del botón: WhatsApp (con mensaje que incluye el nombre y la referencia del producto) → Instagram → correo.
-- `pages` alimenta la **Vista catálogo**: muestra las páginas originales en orden, y bajo cada página hay botones para abrir sus productos.
-
-### Optimizar fotografías
-
-```bash
-npm install
-npm run images -- catalogo-original/fotos assets/images
-```
-
-Genera `nombre-400.webp` (`imageSmall`) y `nombre-800.webp` (`image`) e imprime las dimensiones para `products.json`. **Solo redimensiona y comprime**: no recorta ni retoca. Las fotografías deben ser siempre las reales del catálogo.
+El bloque `brand` de `products.json` contiene el nombre, el lema, el contacto (`whatsapp`, `whatsappCountryCode`, `instagram`, y opcionalmente `phone`, `email`, `website`) y los pasos de **Proceso de compra** copiados de la página 2 del catálogo. La sección Contacto, los íconos de la portada y el botón de WhatsApp se generan desde ahí.
 
 ## Cambiar la identidad visual
 
-Colores, tipografías, radios y fondo de la portada están en el primer bloque de `css/styles.css` (variables `--color-*`, `--font-*`, `--radius-*`, `--hero-*`). Ese bloque es el único que hay que modificar para aplicar la identidad del catálogo original.
+Colores, tipografías y radios están en el primer bloque de `css/styles.css` (variables `--color-*`, `--font-*`, `--gradient-*`). Los valores se midieron sobre el catálogo original.
+
+Tipografías: el logo usa **Cormorant Garamond** y **Dancing Script**, las mismas del catálogo (Google Fonts). Los títulos de marca del catálogo usan *The Seasons* y los textos *Garet* / *Mont*, fuentes con licencia de Canva que no pueden publicarse en la web; se reemplazaron por Cormorant Garamond y **Poppins** (que el catálogo también usa).
 
 ## Funcionalidades
 
-- Búsqueda instantánea por nombre, categoría, tipo, referencia, presentación, descripción y etiquetas. No distingue tildes ni mayúsculas, y con varias palabras exige todas ("labial rojo").
-- Filtro por categoría con contador por categoría, y filtro de ofertas cuando existen.
-- Ordenamiento: orden del catálogo, nombre A-Z / Z-A, y precio si hay precios.
+- Búsqueda instantánea por nombre, marca, categoría, presentación, descripción, variantes y etiquetas. No distingue tildes ni mayúsculas, y con varias palabras exige todas ("shampoo niños").
+- Filtro por marca (con contador) y por categoría (con contador). Cada contador tiene en cuenta los demás filtros.
+- Orden: catálogo, nombre A-Z / Z-A, precio menor/mayor.
 - Contador "Mostrando X de Y productos" y estado sin resultados con "Limpiar búsqueda".
-- Detalle en ventana modal (pantalla completa en celular), con enlace propio, cierre con Esc y "← Volver al catálogo".
-- Búsqueda, categoría, orden, vista y producto viven en la URL: el botón atrás del navegador no pierde el filtro y se puede compartir un enlace a un producto.
-- Vista productos (búsqueda) / Vista catálogo (páginas originales).
-- Imágenes con carga diferida, dimensiones definidas, `srcset` y una imagen de respaldo si alguna falla.
-- Accesibilidad: HTML semántico, navegación por teclado, foco visible, ARIA en controles y movimiento reducido respetado.
+- Detalle en ventana modal (pantalla completa en celular) con enlace propio, fotos de tonos, aviso de disponibilidad, cierre con Esc y "← Volver al catálogo".
+- Búsqueda, marca, categoría, orden, vista y producto viven en la URL: el botón atrás del navegador no pierde el filtro y se puede compartir un enlace a un producto.
+- Vista catálogo con las páginas originales, índice por marca y botones para abrir los productos de cada página.
+- Imágenes WebP con carga diferida, dimensiones definidas, `srcset` y una imagen de respaldo si alguna falla.
+- Accesibilidad: HTML semántico, navegación por teclado, foco visible, ARIA en controles, movimiento reducido respetado.
 
 ## Evolución prevista (no implementada)
 
-- **V2:** favoritos, carrito y pedido por WhatsApp. El botón de solicitud ya construye el mensaje por producto (`buildOrderLink` en `js/ui.js`).
+- **V2:** favoritos, carrito y pedido por WhatsApp con varios productos. El botón actual ya arma el mensaje por producto (`buildOrderLink` en `js/ui.js`).
 - **V3:** backend, base de datos, panel administrador, inventario. `products.json` puede pasar a ser la respuesta de una API con la misma forma.
 - **V4:** e-commerce, pagos, usuarios.

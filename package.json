@@ -1,12 +1,13 @@
 {
-  "name": "agatha-beauty-catalogo",
+  "name": "agata-beauty-catalogo",
   "version": "0.1.0",
   "private": true,
-  "description": "Catálogo digital interactivo de Agatha Beauty",
+  "description": "Catálogo digital interactivo de Ágata Beauty",
   "type": "module",
   "scripts": {
     "start": "serve . -l 8080",
-    "images": "node scripts/optimize-images.mjs"
+    "images": "node scripts/optimize-images.mjs",
+    "catalog": "python3 scripts/extract-catalog.py catalogo-original/catalogo.pdf"
   },
   "devDependencies": {
     "serve": "^14.2.4",

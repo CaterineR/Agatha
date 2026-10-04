@@ -1,2 +1,1 @@
-<!-- PROVISIONAL: reemplazar por el isotipo/logo real de Agatha Beauty -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#333"/><text x="32" y="44" text-anchor="middle" font-family="Georgia, serif" font-size="36" fill="#fff">A</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="r" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c27460"/><stop offset="1" stop-color="#65312a"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#fcf3ec" stroke="url(#r)" stroke-width="4"/><text x="32" y="45" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-weight="700" font-size="36" fill="#643011">Á</text></svg>

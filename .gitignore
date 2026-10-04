@@ -1,3 +1,8 @@
 node_modules/
 .DS_Store
 Thumbs.db
+# El PDF original de Canva pesa ~160 MB (GitHub no acepta archivos > 100 MB).
+# Se guarda localmente en catalogo-original/ y no se sube al repositorio.
+catalogo-original/*.pdf
+catalogo-original/*.rar
+__pycache__/

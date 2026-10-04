@@ -1,9 +1,10 @@
 // Estado de la interfaz sincronizado con la URL.
 // Permite volver atrás sin perder búsqueda/categoría y compartir enlaces a un producto.
-//   ?q=labial&cat=maquillaje&orden=name-asc&vista=catalogo&ofertas=1&producto=producto-001
+//   ?q=labial&marca=montoc&cat=labios&orden=name-asc&vista=catalogo&ofertas=1&producto=montoc-007-1
 
 const PARAMS = {
   query: 'q',
+  brand: 'marca',
   category: 'cat',
   sort: 'orden',
   view: 'vista',
@@ -13,6 +14,7 @@ const PARAMS = {
 
 export const DEFAULT_STATE = Object.freeze({
   query: '',
+  brand: '',
   category: '',
   sort: '',
   view: 'productos',
@@ -24,6 +26,7 @@ export function readState(location = window.location) {
   const params = new URLSearchParams(location.search);
   return {
     query: params.get(PARAMS.query) ?? '',
+    brand: params.get(PARAMS.brand) ?? '',
     category: params.get(PARAMS.category) ?? '',
     sort: params.get(PARAMS.sort) ?? '',
     view: params.get(PARAMS.view) === 'catalogo' ? 'catalogo' : 'productos',
@@ -35,6 +38,7 @@ export function readState(location = window.location) {
 function toUrl(state) {
   const params = new URLSearchParams();
   if (state.query) params.set(PARAMS.query, state.query);
+  if (state.brand) params.set(PARAMS.brand, state.brand);
   if (state.category) params.set(PARAMS.category, state.category);
   if (state.sort) params.set(PARAMS.sort, state.sort);
   if (state.view !== 'productos') params.set(PARAMS.view, state.view);

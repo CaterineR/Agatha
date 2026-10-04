@@ -1,32 +1,36 @@
-// Categorías, ofertas y ordenamiento derivados de los datos reales.
-// Las categorías NO se definen a mano: salen de products.json.
+// Marcas, categorías, ofertas y ordenamiento derivados de los datos reales.
+// Marcas y categorías NO se definen a mano: salen de products.json.
 
-export function getCategories(products) {
-  const categories = new Map();
+/** Valores distintos de un campo, en el orden en que aparecen en el catálogo original. */
+function getFacet(products, field) {
+  const values = new Map();
   for (const product of products) {
-    if (!product.categorySlug) continue;
-    if (!categories.has(product.categorySlug)) {
-      categories.set(product.categorySlug, { slug: product.categorySlug, name: product.category, firstOrder: product.order });
-    }
+    const slug = product[`${field}Slug`];
+    if (slug && !values.has(slug)) values.set(slug, { slug, name: product[field] });
   }
-  // Se conserva el orden de aparición en el catálogo original.
-  return [...categories.values()].sort((a, b) => a.firstOrder - b.firstOrder);
+  return [...values.values()];
 }
 
-export function countByCategory(products) {
+export const getCategories = (products) => getFacet(products, 'category');
+export const getBrands = (products) => getFacet(products, 'brand');
+
+function countBy(products, key) {
   const counts = new Map();
   for (const product of products) {
-    if (product.categorySlug) counts.set(product.categorySlug, (counts.get(product.categorySlug) ?? 0) + 1);
+    if (product[key]) counts.set(product[key], (counts.get(product[key]) ?? 0) + 1);
   }
   return counts;
 }
 
+export const countByCategory = (products) => countBy(products, 'categorySlug');
+export const countByBrand = (products) => countBy(products, 'brandSlug');
+
 export const hasPrices = (products) => products.some((p) => typeof p.price === 'number');
 export const hasOffers = (products) => products.some((p) => p.offer);
 
-export function filterProducts(products, { category, offers }) {
+export function filterProducts(products, { brand, category, offers }) {
   return products.filter(
-    (p) => (!category || p.categorySlug === category) && (!offers || p.offer),
+    (p) => (!brand || p.brandSlug === brand) && (!category || p.categorySlug === category) && (!offers || p.offer),
   );
 }
 
