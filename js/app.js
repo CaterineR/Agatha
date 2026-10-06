@@ -238,7 +238,7 @@ function bindEvents() {
 
   window.addEventListener('popstate', () => {
     state = readState();
-    openedFromApp = Boolean(state.product && history.state?.agatha);
+    openedFromApp = Boolean(state.product && history.state?.agata);
     renderAll();
   });
 }

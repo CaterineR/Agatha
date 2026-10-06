@@ -56,5 +56,5 @@ function toUrl(state) {
 export function writeState(state, { push = false } = {}) {
   const url = toUrl(state);
   if (url === `${window.location.pathname}${window.location.search}${window.location.hash}`) return;
-  history[push ? 'pushState' : 'replaceState']({ agatha: true }, '', url);
+  history[push ? 'pushState' : 'replaceState']({ agata: true }, '', url);
 }
